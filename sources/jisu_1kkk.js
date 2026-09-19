@@ -107,6 +107,21 @@ class JiSuManHua extends ComicSource {
     ],
   }
 
+  account = {
+    // 极速漫画登录带"旋转图片验证码"，无法用账号密码直接登录，改用内置网页登录。
+    loginWithWebview: {
+      url: `${JiSuManHua.baseUrl}/login/`,
+      checkStatus: (url, title) => {
+        // 登录成功后站点会跳离登录页
+        return url.indexOf("/login") < 0 && title.indexOf("登录") < 0
+      },
+      onLoginSuccess: () => {},
+    },
+    logout: () => {
+      Network.deleteCookies(JiSuManHua.baseUrl)
+    },
+  }
+
   comic = {
     loadInfo: async (id) => {
       let url = id.startsWith("http") ? id : `${JiSuManHua.baseUrl}${id}`

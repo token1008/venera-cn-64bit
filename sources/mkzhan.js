@@ -119,6 +119,41 @@ class Mkzhan extends ComicSource {
     },
   }
 
+  account = {
+    // 漫客栈账号密码登录：POST /login/ ，成功后会话保存在 cookie jar 里
+    login: async (account, pwd) => {
+      let res = await Network.post(
+        `${Mkzhan.baseUrl}/login/`,
+        {
+          "User-Agent": Mkzhan.ua,
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Referer": `${Mkzhan.baseUrl}/login/`,
+        },
+        `account=${encodeURIComponent(account)}&password=${encodeURIComponent(pwd)}`
+      )
+      if (res.status !== 200) throw `登录请求失败：HTTP ${res.status}`
+      // 登录成功的标志：站点下发登录态 cookie
+      let cookies = Network.getCookies(Mkzhan.baseUrl)
+      let ok = false
+      for (let c of cookies) {
+        if (/^(token|user|member|uid|username|nickname|login)/i.test(c.name) && c.value) ok = true
+      }
+      if (!ok) throw "登录失败：账号或密码错误（或站点要求验证码）"
+      this.saveData("logged", true)
+    },
+    loginWithWebview: {
+      url: `${Mkzhan.baseUrl}/login/`,
+      checkStatus: (url, title) => {
+        return title.indexOf("登录") < 0 && title.indexOf("注册") < 0
+      },
+      onLoginSuccess: () => {},
+    },
+    logout: () => {
+      this.deleteData("logged")
+      Network.deleteCookies(Mkzhan.baseUrl)
+    },
+  }
+
   comic = {
     loadInfo: async (id) => {
       let url = id.startsWith("http") ? id : `${Mkzhan.baseUrl}${id}`
