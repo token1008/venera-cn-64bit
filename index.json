@@ -94,8 +94,8 @@
     "name": "【工具】诊断与日志上传",
     "fileName": "sources-direct/venera_diag.js",
     "key": "venera_diag",
-    "version": "1.0.0",
-    "description": "上传运行诊断到 GitHub：扫描全部源并记录失败原因，供作者修补。需填 GitHub Token"
+    "version": "1.0.1",
+    "description": "上传运行诊断到 GitHub：扫描全部源并记录失败原因，供作者修补。需填 GitHub Token（repo 权限）"
   },
   {
     "name": "【直连】CCC追漫台（官方）",

@@ -121,6 +121,9 @@ class VeneraDiag extends ComicSource {
       r.comicTitle = chosen.comic.title
       r.detail = { ok: true, title: chosen.detail.title }
       r.chapters = { ok: chosen.chapters.length > 0, count: chosen.chapters.length }
+      if (chosen.chapters.length && chosen.chapters[0][1] instanceof Map) {
+        r.chapters.note = "该源章节为分组结构(Map)"
+      }
       if (!chosen.chapters.length) {
         r.chapters.error = "详情页可读，但该漫画没有章节列表（站点侧限制/下架，试过 " + r.triedComics.join("、") + "）"
         return r
@@ -136,15 +139,24 @@ class VeneraDiag extends ComicSource {
       for (let idx of order) {
         if (idx < 0 || idx >= n) continue
         let ch = chosen.chapters[idx]
+        let chId = ch[0]
+        // 有些源的章节标题本身是 Map（分组章节），转成可读文本
+        let chName = ch[1]
+        if (chName instanceof Map) {
+          let names = Array.from(chName.values())
+          chName = names.length ? String(names[0]) : "(分组章节)"
+        } else if (typeof chName !== "string") {
+          chName = String(chName)
+        }
         try {
-          let ep = await src.comic.loadEp(chosen.comic.id, ch[0])
+          let ep = await src.comic.loadEp(chosen.comic.id, chId)
           let images = (ep && ep.images) || []
           if (images.length) {
-            r.image = { ok: true, count: images.length, chapter: ch[1] }
+            r.image = { ok: true, count: images.length, chapter: chName }
             r.ok = true
             return r
           }
-          lastErr = "章节「" + ch[1] + "」返回 0 张图片"
+          lastErr = "章节「" + chName + "」返回 0 张图片"
         } catch (e) {
           lastErr = (e && e.message) ? (e.name + ": " + e.message) : String(e)
         }
