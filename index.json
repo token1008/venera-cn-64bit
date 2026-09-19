@@ -1,357 +1,289 @@
 [
   {
-    "name": "腾讯漫画",
-    "fileName": "sources/acqq.js",
-    "key": "acqq",
-    "version": "1.0.0",
-    "description": "腾讯漫画 - 24个分类+排行榜，仅免费章节可读"
-  },
-  {
-    "name": "Cosplay啦",
-    "fileName": "sources/ciyuandao.js",
-    "key": "ciyuandao",
-    "version": "1.0.0",
-    "description": "Cosplay啦 - 图集站，相册=单章"
-  },
-  {
-    "name": "大魔兔",
-    "fileName": "sources/damotu.js",
-    "key": "damotu",
-    "version": "1.0.0",
-    "description": "大魔兔 - 本地索引搜索(4万+本)"
-  },
-  {
-    "name": "动漫啦",
-    "fileName": "sources/dongmanla.js",
-    "key": "dongmanla",
-    "version": "1.0.0",
-    "description": "动漫啦 - 35个分类，滚动模式章节"
-  },
-  {
-    "name": "国漫吧",
-    "fileName": "sources/guoman8.js",
-    "key": "guoman8",
-    "version": "1.0.0",
-    "description": "国漫吧 - 含「按年份」筛选(2014-2019，已验证分页)"
-  },
-  {
-    "name": "极速漫画",
-    "fileName": "sources/jisu_1kkk.js",
+    "name": "【直连】极速漫画",
+    "fileName": "sources-direct/jisu_1kkk.js",
     "key": "jisu_1kkk",
     "version": "1.0.0",
-    "description": "极速漫画 - 搜索/26分类/章节完整；图片CDN需Referer，已由 onImageLoad 解决黑屏；支持网页登录"
+    "description": "搜索/26分类/章节完整；图片CDN需Referer，已由 onImageLoad 解决黑屏；支持网页登录"
   },
   {
-    "name": "看漫画",
-    "fileName": "sources/kanman.js",
+    "name": "【直连】看漫画",
+    "fileName": "sources-direct/kanman.js",
     "key": "kanman",
     "version": "1.0.0",
     "description": "看漫画(小明太极) - JSON接口，章节完整"
   },
   {
-    "name": "178漫画网",
-    "fileName": "sources/manhua178.js",
-    "key": "manhua178",
-    "version": "1.0.0",
-    "description": "178漫画网 - 24个分类，webp图源"
-  },
-  {
-    "name": "漫画吧网",
-    "fileName": "sources/manhuaba.js",
-    "key": "manhuaba",
-    "version": "1.0.0",
-    "description": "漫画吧网 - AES解密图片列表"
-  },
-  {
-    "name": "漫漫漫画",
-    "fileName": "sources/manman.js",
-    "key": "manman",
-    "version": "1.0.0",
-    "description": "漫漫漫画 - 付费章节会明确报错，不返回假图"
-  },
-  {
-    "name": "漫客栈",
-    "fileName": "sources/mkzhan.js",
-    "key": "mkzhan",
-    "version": "1.0.0",
-    "description": "漫客栈 - 章节接口无需登录；支持账号密码登录"
-  },
-  {
-    "name": "奇漫屋",
-    "fileName": "sources/qimanwu.js",
-    "key": "qimanwu",
-    "version": "1.0.0",
-    "description": "奇漫屋 - 站点已停更漫画(SEO文章站)，保留待站点恢复"
-  },
-  {
-    "name": "知音漫客",
-    "fileName": "sources/zymk.js",
+    "name": "【直连】知音漫客",
+    "fileName": "sources-direct/zymk.js",
     "key": "zymk",
     "version": "1.0.0",
     "description": "知音漫客(小明太极) - JSON接口，章节完整"
   },
   {
-    "name": "拷贝漫画",
-    "fileName": "copy_manga.js",
-    "key": "copy_manga",
-    "version": "1.4.2",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/copy_manga.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "拷贝漫画(多账号)",
-    "fileName": "copy_manga_multi_accounts.js",
-    "key": "copy_manga",
-    "version": "1.4.1",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/copy_manga_multi_accounts.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "Komiic",
-    "fileName": "komiic.js",
-    "key": "Komiic",
-    "version": "1.0.3",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/komiic.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "包子漫画",
-    "fileName": "baozi.js",
-    "key": "baozi",
-    "version": "1.1.6",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/baozi.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "Picacg",
-    "fileName": "picacg.js",
-    "key": "picacg",
-    "version": "1.0.6",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/picacg.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "nhentai",
-    "fileName": "nhentai.js",
-    "key": "nhentai",
-    "version": "1.1.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/nhentai.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "紳士漫畫",
-    "fileName": "wnacg.js",
-    "key": "wnacg",
-    "version": "1.0.5",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/wnacg.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "ehentai",
-    "fileName": "ehentai.js",
-    "key": "ehentai",
-    "version": "1.1.8",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/ehentai.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "禁漫天堂",
-    "fileName": "jm.js",
-    "key": "jm",
-    "version": "1.4.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/jm.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "MangaDex",
-    "fileName": "manga_dex.js",
-    "key": "manga_dex",
-    "version": "1.2.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/manga_dex.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "爱看漫",
-    "fileName": "ikmmh.js",
-    "key": "ikmmh",
-    "version": "1.0.6",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/ikmmh.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "少年ジャンプ＋",
-    "fileName": "shonen_jump_plus.js",
-    "key": "shonen_jump_plus",
-    "version": "1.1.1",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/shonen_jump_plus.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "hitomi.la",
-    "fileName": "hitomi.js",
-    "key": "hitomi",
-    "version": "1.1.2",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/hitomi.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "comick",
-    "fileName": "comick.js",
-    "key": "comick",
-    "version": "1.2.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/comick.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "优酷漫画",
-    "fileName": "ykmh.js",
-    "key": "ykmh",
+    "name": "【直连】动漫啦",
+    "fileName": "sources-direct/dongmanla.js",
+    "key": "dongmanla",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/ykmh.js",
-    "description": "官方源（venera-configs）"
+    "description": "动漫啦 - 35个分类，滚动模式章节"
   },
   {
-    "name": "再漫画",
-    "fileName": "zaimanhua.js",
-    "key": "zaimanhua",
-    "version": "1.0.2",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/zaimanhua.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "漫画柜",
-    "fileName": "manhuagui.js",
-    "key": "ManHuaGui",
-    "version": "1.2.1",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/manhuagui.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "漫蛙吧",
-    "fileName": "manwaba.js",
-    "key": "manwaba",
-    "version": "1.0.2",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/manwaba.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "Lanraragi",
-    "fileName": "lanraragi.js",
-    "key": "lanraragi",
-    "version": "1.1.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/lanraragi.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "Komga",
-    "fileName": "komga.js",
-    "key": "komga",
+    "name": "【直连】国漫吧",
+    "fileName": "sources-direct/guoman8.js",
+    "key": "guoman8",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/komga.js",
-    "description": "官方源（venera-configs）"
+    "description": "国漫吧 - 含「按年份」筛选(2014-2019，已验证分页)"
   },
   {
-    "name": "カドコミ",
-    "fileName": "comic_walker.js",
-    "key": "comic_walker",
-    "version": "1.0.1",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/comic_walker.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "漫画1234",
-    "fileName": "mh1234.js",
-    "key": "mh1234",
+    "name": "【直连】178漫画网",
+    "fileName": "sources-direct/manhua178.js",
+    "key": "manhua178",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/mh1234.js",
-    "description": "官方源（venera-configs）"
+    "description": "178漫画网 - 24个分类，webp图源"
   },
   {
-    "name": "CCC追漫台",
-    "fileName": "ccc.js",
+    "name": "【直连】漫客栈",
+    "fileName": "sources-direct/mkzhan.js",
+    "key": "mkzhan",
+    "version": "1.0.0",
+    "description": "漫客栈 - 章节接口无需登录；支持账号密码登录"
+  },
+  {
+    "name": "【直连】漫漫漫画",
+    "fileName": "sources-direct/manman.js",
+    "key": "manman",
+    "version": "1.0.0",
+    "description": "漫漫漫画 - 付费章节会明确报错，不返回假图"
+  },
+  {
+    "name": "【直连】腾讯漫画",
+    "fileName": "sources-direct/acqq.js",
+    "key": "acqq",
+    "version": "1.0.0",
+    "description": "腾讯漫画 - 24个分类+排行榜，仅免费章节可读"
+  },
+  {
+    "name": "【直连】大魔兔",
+    "fileName": "sources-direct/damotu.js",
+    "key": "damotu",
+    "version": "1.0.0",
+    "description": "大魔兔 - 本地索引搜索(4万+本)"
+  },
+  {
+    "name": "【直连】漫画吧网",
+    "fileName": "sources-direct/manhuaba.js",
+    "key": "manhuaba",
+    "version": "1.0.0",
+    "description": "漫画吧网 - AES解密图片列表"
+  },
+  {
+    "name": "【直连】Cosplay啦",
+    "fileName": "sources-direct/ciyuandao.js",
+    "key": "ciyuandao",
+    "version": "1.0.0",
+    "description": "Cosplay啦 - 图集站，相册=单章"
+  },
+  {
+    "name": "【直连】奇漫屋",
+    "fileName": "sources-direct/qimanwu.js",
+    "key": "qimanwu",
+    "version": "1.0.0",
+    "description": "奇漫屋 - 站点已停更漫画(SEO文章站)，保留待站点恢复"
+  },
+  {
+    "name": "【工具】诊断与日志上传",
+    "fileName": "sources-direct/venera_diag.js",
+    "key": "venera_diag",
+    "version": "1.0.0",
+    "description": "上传运行诊断到 GitHub：扫描全部源并记录失败原因，供作者修补。需填 GitHub Token"
+  },
+  {
+    "name": "【直连】CCC追漫台（官方）",
+    "fileName": "sources-direct/ccc.js",
     "key": "ccc",
-    "version": "1.0.1",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/ccc.js",
-    "description": "官方源（venera-configs）"
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：主机直连可达（200），但离线仿真报“SyntaxError: Unexpected token '<', \"<!DOCTYPE \"...”（多为需登录/需 App 环境，非代理问题）"
   },
   {
-    "name": "GoDa漫画",
-    "fileName": "goda.js",
+    "name": "【直连】カドコミ（官方）",
+    "fileName": "sources-direct/comic_walker.js",
+    "key": "comic_walker",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：主机直连可达（403），但离线仿真报“TypeError: Cannot read properties of undefined (re”（多为需登录/需 App 环境，非代理问题）"
+  },
+  {
+    "name": "【直连】comick（官方）",
+    "fileName": "sources-direct/comick.js",
+    "key": "comick",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：无代理实测搜索成功（50 条结果）"
+  },
+  {
+    "name": "【直连】拷贝漫画（官方）",
+    "fileName": "sources-direct/copy_manga.js",
+    "key": "copy_manga",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：无代理实测搜索成功（30 条结果）"
+  },
+  {
+    "name": "【直连】拷贝漫画(多账号)（官方）",
+    "fileName": "sources-direct/copy_manga_multi_accounts.js",
+    "key": "copy_manga_multi_accounts",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：无代理实测搜索成功（30 条结果）"
+  },
+  {
+    "name": "【直连】GoDa漫画（官方）",
+    "fileName": "sources-direct/goda.js",
     "key": "goda",
-    "version": "1.2.1",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/goda.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "18漫画",
-    "fileName": "mh18.js",
-    "key": "mh18",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/mh18.js",
-    "description": "官方源（venera-configs）"
+    "description": "官方源 · 无需代理：无代理实测搜索成功（16 条结果）"
   },
   {
-    "name": "漫小肆",
-    "fileName": "mxs.js",
-    "key": "mxs",
+    "name": "【直连】hitomi.la（官方）",
+    "fileName": "sources-direct/hitomi.js",
+    "key": "hitomi",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/mxs.js",
-    "description": "官方源（venera-configs）"
+    "description": "官方源 · 无需代理：无代理实测搜索成功（25 条结果）"
   },
   {
-    "name": "漫画人",
-    "fileName": "manhuaren.js",
+    "name": "【直连】爱看漫（官方）",
+    "fileName": "sources-direct/ikmmh.js",
+    "key": "ikmmh",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：无代理实测搜索成功（21 条结果）"
+  },
+  {
+    "name": "【直连】MangaDex（官方）",
+    "fileName": "sources-direct/manga_dex.js",
+    "key": "manga_dex",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：主机直连可达（200）"
+  },
+  {
+    "name": "【直连】漫画人（官方）",
+    "fileName": "sources-direct/manhuaren.js",
     "key": "manhuaren",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/manhuaren.js",
-    "description": "官方源（venera-configs）"
+    "description": "官方源 · 无需代理：主机直连可达（200），但离线仿真报“None”（多为需登录/需 App 环境，非代理问题）"
   },
   {
-    "name": "H-Comic",
-    "fileName": "hcomic.js",
+    "name": "【直连】MYCOMIC（官方）",
+    "fileName": "sources-direct/mycomic.js",
+    "key": "mycomic",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：主机直连可达（403），但离线仿真报“None”（多为需登录/需 App 环境，非代理问题）"
+  },
+  {
+    "name": "【直连】Picacg（官方）",
+    "fileName": "sources-direct/picacg.js",
+    "key": "picacg",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：主机直连可达（400），但离线仿真报“Error: Not logged in”（多为需登录/需 App 环境，非代理问题）"
+  },
+  {
+    "name": "【直连】少年ジャンプ＋（官方）",
+    "fileName": "sources-direct/shonen_jump_plus.js",
+    "key": "shonen_jump_plus",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：主机直连可达（200），但离线仿真报“Invalid status: 410”（多为需登录/需 App 环境，非代理问题）"
+  },
+  {
+    "name": "【直连】优酷漫画（官方）",
+    "fileName": "sources-direct/ykmh.js",
+    "key": "ykmh",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：主机直连可达（403），但离线仿真报“Request Error: 403”（多为需登录/需 App 环境，非代理问题）"
+  },
+  {
+    "name": "【直连】再漫画（官方）",
+    "fileName": "sources-direct/zaimanhua.js",
+    "key": "zaimanhua",
+    "version": "1.0.0",
+    "description": "官方源 · 无需代理：无代理实测搜索成功（20 条结果）"
+  },
+  {
+    "name": "【需代理】包子漫画",
+    "fileName": "sources-proxy/baozi.js",
+    "key": "baozi",
+    "version": "1.0.0",
+    "description": "官方源 · 需代理/VPN 才能加载：直连失败、走代理搜索成功（77 条结果）"
+  },
+  {
+    "name": "【需代理】ehentai",
+    "fileName": "sources-proxy/ehentai.js",
+    "key": "ehentai",
+    "version": "1.0.0",
+    "description": "官方源 · 需代理/VPN 才能加载：直连不通、代理可达（e-hentai.org d=000 p=200）"
+  },
+  {
+    "name": "【需代理】H-Comic",
+    "fileName": "sources-proxy/hcomic.js",
     "key": "hcomic",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/hcomic.js",
-    "description": "官方源（venera-configs）"
+    "description": "官方源 · 需代理/VPN 才能加载：直连失败、走代理搜索成功（10 条结果）"
   },
   {
-    "name": "jcomic.net",
-    "fileName": "jcomic.js",
-    "key": "jcomic",
-    "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/jcomic.js",
-    "description": "官方源（venera-configs）"
-  },
-  {
-    "name": "热辣漫画",
-    "fileName": "hot_manga.js",
+    "name": "【需代理】热辣漫画",
+    "fileName": "sources-proxy/hot_manga.js",
     "key": "hot_manga",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/hot_manga.js",
-    "description": "官方源（venera-configs）"
+    "description": "官方源 · 需代理/VPN 才能加载：直连失败、走代理搜索成功（20 条结果）"
   },
   {
-    "name": "Kavita",
-    "fileName": "kavita.js",
-    "key": "kavita",
+    "name": "【需代理】jcomic.net",
+    "fileName": "sources-proxy/jcomic.js",
+    "key": "jcomic",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/kavita.js",
-    "description": "官方源（venera-configs）"
+    "description": "官方源 · 需代理/VPN 才能加载：直连失败、走代理搜索成功（30 条结果）"
   },
   {
-    "name": "嗨皮漫画",
-    "fileName": "happy.js",
-    "key": "happy",
+    "name": "【需代理】禁漫天堂",
+    "fileName": "sources-proxy/jm.js",
+    "key": "jm",
     "version": "1.0.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/happy.js",
-    "description": "官方源（venera-configs）"
+    "description": "官方源 · 需代理/VPN 才能加载：直连不通、代理可达（18comic.vip d=000 p=403）"
   },
   {
-    "name": "MYCOMIC",
-    "fileName": "mycomic.js",
-    "key": "mycomic",
-    "version": "1.1.0",
-    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/mycomic.js",
-    "description": "官方源（venera-configs）"
+    "name": "【需代理】Komiic",
+    "fileName": "sources-proxy/komiic.js",
+    "key": "komiic",
+    "version": "1.0.0",
+    "description": "官方源 · 需代理/VPN 才能加载：直连失败、走代理搜索成功（48 条结果）"
+  },
+  {
+    "name": "【需代理】漫蛙吧",
+    "fileName": "sources-proxy/manwaba.js",
+    "key": "manwaba",
+    "version": "1.0.0",
+    "description": "官方源 · 需代理/VPN 才能加载：直连不通、代理可达（mwuu.cc d=000 p=200）"
+  },
+  {
+    "name": "【需代理】18漫画",
+    "fileName": "sources-proxy/mh18.js",
+    "key": "mh18",
+    "version": "1.0.0",
+    "description": "官方源 · 需代理/VPN 才能加载：直连不通、代理可达（18mh.org d=000 p=403）"
+  },
+  {
+    "name": "【需代理】漫小肆",
+    "fileName": "sources-proxy/mxs.js",
+    "key": "mxs",
+    "version": "1.0.0",
+    "description": "官方源 · 需代理/VPN 才能加载：直连不通、代理可达（www.mxshm.top d=000 p=200）"
+  },
+  {
+    "name": "【需代理】nhentai",
+    "fileName": "sources-proxy/nhentai.js",
+    "key": "nhentai",
+    "version": "1.0.0",
+    "description": "官方源 · 需代理/VPN 才能加载：直连失败、走代理搜索成功（25 条结果）"
+  },
+  {
+    "name": "【需代理】紳士漫畫",
+    "fileName": "sources-proxy/wnacg.js",
+    "key": "wnacg",
+    "version": "1.0.0",
+    "description": "官方源 · 需代理/VPN 才能加载：直连不通、代理可达（wnacg.com d=000 p=200）"
   }
 ]
