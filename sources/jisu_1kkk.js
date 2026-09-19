@@ -50,6 +50,18 @@ class JiSuManHua extends ComicSource {
     ["战争", "manhua-zhanzheng"],
   ]
 
+  // 列表项里的"最新 第N话"，让漫画更新进度一眼可见
+  static _latestTip(li) {
+    for (let sel of [".manga-list-2-tip", ".book-list-info-bottom-right-font", ".rank-list-info-right-font"]) {
+      let e = li.querySelector(sel)
+      if (e) {
+        let t = e.text.trim()
+        if (t) return t.replace(/^最新\s*/, "最新 ")
+      }
+    }
+    return null
+  }
+
   _parseList(doc) {
     let comics = []
     for (let li of doc.querySelectorAll("li")) {
@@ -65,7 +77,7 @@ class JiSuManHua extends ComicSource {
         id: href,
         title: title,
         cover: coverEl ? (coverEl.attributes["src"] || coverEl.attributes["data-src"]) : null,
-        subtitle: li.querySelector(".book-list-info-bottom-right-font") ? li.querySelector(".book-list-info-bottom-right-font").text.trim() : null,
+        subtitle: JiSuManHua._latestTip(li),
         tags: [],
       })
       comics.push(comic)
