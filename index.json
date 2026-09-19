@@ -1,0 +1,357 @@
+[
+  {
+    "name": "腾讯漫画",
+    "fileName": "sources/acqq.js",
+    "key": "acqq",
+    "version": "1.0.0",
+    "description": "腾讯漫画 - 24个分类+排行榜，仅免费章节可读"
+  },
+  {
+    "name": "Cosplay啦",
+    "fileName": "sources/ciyuandao.js",
+    "key": "ciyuandao",
+    "version": "1.0.0",
+    "description": "Cosplay啦 - 图集站，相册=单章"
+  },
+  {
+    "name": "大魔兔",
+    "fileName": "sources/damotu.js",
+    "key": "damotu",
+    "version": "1.0.0",
+    "description": "大魔兔 - 本地索引搜索(4万+本)"
+  },
+  {
+    "name": "动漫啦",
+    "fileName": "sources/dongmanla.js",
+    "key": "dongmanla",
+    "version": "1.0.0",
+    "description": "动漫啦 - 分类丰富，滚动模式章节"
+  },
+  {
+    "name": "国漫吧",
+    "fileName": "sources/guoman8.js",
+    "key": "guoman8",
+    "version": "1.0.0",
+    "description": "国漫吧 - 含按年份筛选(2014-2019)"
+  },
+  {
+    "name": "极速漫画",
+    "fileName": "sources/jisu_1kkk.js",
+    "key": "jisu_1kkk",
+    "version": "1.0.0",
+    "description": "极速漫画 - 搜索/分类/100+章节，图片CDN需Referer（已由 onImageLoad 解决黑屏）"
+  },
+  {
+    "name": "看漫画",
+    "fileName": "sources/kanman.js",
+    "key": "kanman",
+    "version": "1.0.0",
+    "description": "看漫画(小明太极) - JSON接口，章节完整"
+  },
+  {
+    "name": "178漫画网",
+    "fileName": "sources/manhua178.js",
+    "key": "manhua178",
+    "version": "1.0.0",
+    "description": "178漫画网 - 24个分类，webp图源"
+  },
+  {
+    "name": "漫画吧网",
+    "fileName": "sources/manhuaba.js",
+    "key": "manhuaba",
+    "version": "1.0.0",
+    "description": "漫画吧网 - AES解密图片列表"
+  },
+  {
+    "name": "漫漫漫画",
+    "fileName": "sources/manman.js",
+    "key": "manman",
+    "version": "1.0.0",
+    "description": "漫漫漫画 - 付费章节会明确报错"
+  },
+  {
+    "name": "漫客栈",
+    "fileName": "sources/mkzhan.js",
+    "key": "mkzhan",
+    "version": "1.0.0",
+    "description": "漫客栈 - 章节接口无需登录"
+  },
+  {
+    "name": "奇漫屋",
+    "fileName": "sources/qimanwu.js",
+    "key": "qimanwu",
+    "version": "1.0.0",
+    "description": ""
+  },
+  {
+    "name": "知音漫客",
+    "fileName": "sources/zymk.js",
+    "key": "zymk",
+    "version": "1.0.0",
+    "description": "知音漫客(小明太极) - JSON接口，章节完整"
+  },
+  {
+    "name": "拷贝漫画",
+    "fileName": "copy_manga.js",
+    "key": "copy_manga",
+    "version": "1.4.2",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/copy_manga.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "拷贝漫画(多账号)",
+    "fileName": "copy_manga_multi_accounts.js",
+    "key": "copy_manga",
+    "version": "1.4.1",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/copy_manga_multi_accounts.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "Komiic",
+    "fileName": "komiic.js",
+    "key": "Komiic",
+    "version": "1.0.3",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/komiic.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "包子漫画",
+    "fileName": "baozi.js",
+    "key": "baozi",
+    "version": "1.1.6",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/baozi.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "Picacg",
+    "fileName": "picacg.js",
+    "key": "picacg",
+    "version": "1.0.6",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/picacg.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "nhentai",
+    "fileName": "nhentai.js",
+    "key": "nhentai",
+    "version": "1.1.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/nhentai.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "紳士漫畫",
+    "fileName": "wnacg.js",
+    "key": "wnacg",
+    "version": "1.0.5",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/wnacg.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "ehentai",
+    "fileName": "ehentai.js",
+    "key": "ehentai",
+    "version": "1.1.8",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/ehentai.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "禁漫天堂",
+    "fileName": "jm.js",
+    "key": "jm",
+    "version": "1.4.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/jm.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "MangaDex",
+    "fileName": "manga_dex.js",
+    "key": "manga_dex",
+    "version": "1.2.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/manga_dex.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "爱看漫",
+    "fileName": "ikmmh.js",
+    "key": "ikmmh",
+    "version": "1.0.6",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/ikmmh.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "少年ジャンプ＋",
+    "fileName": "shonen_jump_plus.js",
+    "key": "shonen_jump_plus",
+    "version": "1.1.1",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/shonen_jump_plus.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "hitomi.la",
+    "fileName": "hitomi.js",
+    "key": "hitomi",
+    "version": "1.1.2",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/hitomi.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "comick",
+    "fileName": "comick.js",
+    "key": "comick",
+    "version": "1.2.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/comick.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "优酷漫画",
+    "fileName": "ykmh.js",
+    "key": "ykmh",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/ykmh.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "再漫画",
+    "fileName": "zaimanhua.js",
+    "key": "zaimanhua",
+    "version": "1.0.2",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/zaimanhua.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "漫画柜",
+    "fileName": "manhuagui.js",
+    "key": "ManHuaGui",
+    "version": "1.2.1",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/manhuagui.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "漫蛙吧",
+    "fileName": "manwaba.js",
+    "key": "manwaba",
+    "version": "1.0.2",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/manwaba.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "Lanraragi",
+    "fileName": "lanraragi.js",
+    "key": "lanraragi",
+    "version": "1.1.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/lanraragi.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "Komga",
+    "fileName": "komga.js",
+    "key": "komga",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/komga.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "カドコミ",
+    "fileName": "comic_walker.js",
+    "key": "comic_walker",
+    "version": "1.0.1",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/comic_walker.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "漫画1234",
+    "fileName": "mh1234.js",
+    "key": "mh1234",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/mh1234.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "CCC追漫台",
+    "fileName": "ccc.js",
+    "key": "ccc",
+    "version": "1.0.1",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/ccc.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "GoDa漫画",
+    "fileName": "goda.js",
+    "key": "goda",
+    "version": "1.2.1",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/goda.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "18漫画",
+    "fileName": "mh18.js",
+    "key": "mh18",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/mh18.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "漫小肆",
+    "fileName": "mxs.js",
+    "key": "mxs",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/mxs.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "漫画人",
+    "fileName": "manhuaren.js",
+    "key": "manhuaren",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/manhuaren.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "H-Comic",
+    "fileName": "hcomic.js",
+    "key": "hcomic",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/hcomic.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "jcomic.net",
+    "fileName": "jcomic.js",
+    "key": "jcomic",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/jcomic.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "热辣漫画",
+    "fileName": "hot_manga.js",
+    "key": "hot_manga",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/hot_manga.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "Kavita",
+    "fileName": "kavita.js",
+    "key": "kavita",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/kavita.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "嗨皮漫画",
+    "fileName": "happy.js",
+    "key": "happy",
+    "version": "1.0.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/happy.js",
+    "description": "官方源（venera-configs）"
+  },
+  {
+    "name": "MYCOMIC",
+    "fileName": "mycomic.js",
+    "key": "mycomic",
+    "version": "1.1.0",
+    "url": "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/mycomic.js",
+    "description": "官方源（venera-configs）"
+  }
+]
