@@ -84,7 +84,6 @@ class JiSuManHua extends ComicSource {
       if (res.status !== 200) throw `Invalid status code: ${res.status}`
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
-      doc.dispose()
       return { comics: comics, maxPage: comics.length > 0 ? page + 1 : page }
     },
   }))
@@ -96,7 +95,6 @@ class JiSuManHua extends ComicSource {
       if (res.status !== 200) throw `Invalid status code: ${res.status}`
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
-      doc.dispose()
       return { comics: comics, maxPage: comics.length > 0 ? page + 1 : page }
     },
     optionList: [
@@ -158,7 +156,6 @@ class JiSuManHua extends ComicSource {
         if (m) { updateTime = m[1].trim(); break }
       }
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         subtitle: subtitle,

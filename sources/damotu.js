@@ -132,7 +132,6 @@ class DaMoTuManHua extends ComicSource {
         })
       )
     }
-    doc.dispose()
     return comics
   }
 
@@ -244,7 +243,6 @@ class DaMoTuManHua extends ComicSource {
       let titleEl = doc.querySelector(".nav-box h1")
       let title = titleEl ? titleEl.text.trim() : null
       if (!title) {
-        doc.dispose()
         throw "Comic not found"
       }
 
@@ -287,7 +285,6 @@ class DaMoTuManHua extends ComicSource {
       let cover = coverEl ? coverEl.attributes["src"] : null
       if (!cover) cover = DaMoTuManHua.coverUrl(path)
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         subtitle: updateTime ? `更新：${updateTime}` : null,
@@ -313,14 +310,12 @@ class DaMoTuManHua extends ComicSource {
       let doc = new HtmlDocument(res.body)
       let box = doc.getElementById("preview-box-0")
       if (!box) {
-        doc.dispose()
         throw "章节页面结构异常"
       }
       let attrs = box.attributes || {}
       let count = parseInt(attrs["count"] || "0", 10)
       let node = attrs["node"]
       let did = attrs["did"]
-      doc.dispose()
       if (!count || !node || !did) throw "无法解析章节图片列表"
 
       let images = []

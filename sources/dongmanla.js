@@ -132,7 +132,6 @@ class DongManLa extends ComicSource {
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
       let maxPage = comics.length > 0 ? this._maxPage(doc, page) : page
-      doc.dispose()
       return { comics: comics, maxPage: maxPage }
     },
   })).concat([{
@@ -143,7 +142,6 @@ class DongManLa extends ComicSource {
       let res = await this._get(`${DongManLa.baseUrl}/`)
       let doc = new HtmlDocument(res.body)
       let comics = page === 1 ? this._parseList(doc) : []
-      doc.dispose()
       return { comics: comics, maxPage: page }
     },
   }])
@@ -156,7 +154,6 @@ class DongManLa extends ComicSource {
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
       let maxPage = comics.length > 0 ? this._maxPage(doc, page) : page
-      doc.dispose()
       return { comics: comics, maxPage: maxPage }
     },
   }
@@ -212,7 +209,6 @@ class DongManLa extends ComicSource {
       items.reverse()
       for (let [href, name] of items) chapters.set(href, name)
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         cover: cover,

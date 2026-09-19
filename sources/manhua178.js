@@ -98,7 +98,6 @@ class Manhua178 extends ComicSource {
       if (res.status !== 200) throw `Invalid status code: ${res.status}`
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
-      doc.dispose()
       return { comics: comics, maxPage: comics.length > 0 ? page + 1 : page }
     },
   }))
@@ -111,7 +110,6 @@ class Manhua178 extends ComicSource {
       if (res.status !== 200) throw `Invalid status code: ${res.status}`
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
-      doc.dispose()
       return { comics: comics, maxPage: comics.length > 0 ? page + 1 : page }
     },
   }
@@ -164,7 +162,6 @@ class Manhua178 extends ComicSource {
       let timeEl = doc.querySelector(".detail-list-title-3")
       if (timeEl) updateTime = timeEl.text.replace(/更新$/, "").trim()
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         subtitle: subtitle,
@@ -192,7 +189,6 @@ class Manhua178 extends ComicSource {
         let u = img.attributes["data-original"] || img.attributes["data-src"] || img.attributes["src"]
         if (u && u.indexOf("http") === 0) images.push(u)
       }
-      doc.dispose()
       if (!images.length) throw "获取图片失败"
       return { images: images }
     },

@@ -160,7 +160,6 @@ class GuoMan8 extends ComicSource {
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
       let maxPage = comics.length > 0 ? this._maxPage(doc, page) : page
-      doc.dispose()
       return { comics: comics, maxPage: maxPage }
     },
   }))
@@ -175,7 +174,6 @@ class GuoMan8 extends ComicSource {
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
       let maxPage = comics.length > 0 ? this._maxPage(doc, page) : page
-      doc.dispose()
       return { comics: comics, maxPage: maxPage }
     },
   }
@@ -326,7 +324,6 @@ class GuoMan8 extends ComicSource {
         chapters.set(this._abs(href), name)
       }
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         subtitle: parsed.info.status || null,

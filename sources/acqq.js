@@ -88,7 +88,6 @@ class TencentManHua extends ComicSource {
         })
       )
     }
-    doc.dispose()
     return comics
   }
 
@@ -125,7 +124,6 @@ class TencentManHua extends ComicSource {
         })
       )
     }
-    doc.dispose()
     return comics
   }
 
@@ -229,7 +227,6 @@ class TencentManHua extends ComicSource {
         if (h1) title = h1.text.trim()
       }
       if (!title) {
-        doc.dispose()
         throw "Comic not found"
       }
 
@@ -292,7 +289,6 @@ class TencentManHua extends ComicSource {
       let chapters = new Map()
       for (let it of items) chapters.set(it[1], it[2])
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         subtitle: status,

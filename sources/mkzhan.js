@@ -103,7 +103,6 @@ class Mkzhan extends ComicSource {
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
       let maxPage = Mkzhan._maxPage(doc, page)
-      doc.dispose()
       return { comics: comics, maxPage: comics.length > 0 ? maxPage : page }
     },
   }))
@@ -116,7 +115,6 @@ class Mkzhan extends ComicSource {
       if (res.status !== 200) throw `Invalid status code: ${res.status}`
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
-      doc.dispose()
       return { comics: comics, maxPage: comics.length > 0 ? page + 1 : page }
     },
   }
@@ -163,7 +161,6 @@ class Mkzhan extends ComicSource {
       let updateEl = doc.querySelector(".update-time")
       if (updateEl) updateTime = updateEl.text.trim()
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         subtitle: subtitle,

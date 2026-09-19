@@ -137,7 +137,6 @@ class KanMan extends ComicSource {
       let titleEl = doc.querySelector("#js_comic_id") || doc.querySelector(".comic-title")
       let title = titleEl ? titleEl.text.trim() : null
       if (!title) {
-        doc.dispose()
         throw "漫画不存在或已下架"
       }
 
@@ -195,7 +194,6 @@ class KanMan extends ComicSource {
       let chapters = new Map()
       for (let it of items) chapters.set(it[1], it[2])
 
-      doc.dispose()
       if (!chapters.size) throw "未获取到章节列表"
       return new ComicDetails({
         title: title,

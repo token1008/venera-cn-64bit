@@ -144,7 +144,6 @@ class QiManWu extends ComicSource {
       let doc = new HtmlDocument(res.body)
       comics = this._parseSearchHtml(doc)
       let isComic = comics.length > 0
-      doc.dispose()
       if (!isComic) throw QiManWu.deadMsg
     }
     return { comics: comics, maxPage: comics.length > 0 ? page + 1 : page }
@@ -160,7 +159,6 @@ class QiManWu extends ComicSource {
         let doc = new HtmlDocument(res.body)
         comics = this._parseSearchHtml(doc)
         let hasList = doc.querySelector(".comic-list-item") ? true : false
-        doc.dispose()
         if (!comics.length && !hasList) throw QiManWu.deadMsg
       }
       return { comics: comics, maxPage: page }
@@ -178,7 +176,6 @@ class QiManWu extends ComicSource {
       let h1 = titleEl ? titleEl.querySelector("h1") : null
       let title = h1 ? h1.text.trim() : null
       if (!title) {
-        doc.dispose()
         throw QiManWu.deadMsg
       }
 
@@ -217,7 +214,6 @@ class QiManWu extends ComicSource {
       items.reverse()
       for (let [href, name] of items) chapters.set(href, name)
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         cover: QiManWu.absUrl(coverEl ? (coverEl.attributes["data-original"] || coverEl.attributes["src"]) : null),
@@ -241,7 +237,6 @@ class QiManWu extends ComicSource {
         if (u.indexOf("/images/") >= 0) continue
         images.push(u)
       }
-      doc.dispose()
       if (!images.length) throw QiManWu.deadMsg
       return { images: images }
     },

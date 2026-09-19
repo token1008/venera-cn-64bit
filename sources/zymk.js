@@ -128,7 +128,6 @@ class ZhiYinManKe extends ComicSource {
       let titleEl = doc.querySelector("h1.name")
       let title = titleEl ? titleEl.text.trim() : null
       if (!title) {
-        doc.dispose()
         throw "漫画不存在或已下架"
       }
 
@@ -176,7 +175,6 @@ class ZhiYinManKe extends ComicSource {
       let chapters = new Map()
       for (let it of items) chapters.set(it[0], it[1])
 
-      doc.dispose()
       if (!chapters.size) throw "未获取到章节列表"
       return new ComicDetails({
         title: title,

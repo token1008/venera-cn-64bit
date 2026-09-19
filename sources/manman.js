@@ -91,7 +91,6 @@ class ManMan extends ComicSource {
         if (res.status !== 200) throw `Invalid status code: ${res.status}`
         let doc = new HtmlDocument(res.body)
         comics = this._parseList(doc)
-        doc.dispose()
       } else {
         let res = await Network.post(
           `${ManMan.baseUrl}/category/list-ajax.html`,
@@ -126,7 +125,6 @@ class ManMan extends ComicSource {
         if (res.status !== 200) throw `Invalid status code: ${res.status}`
         let doc = new HtmlDocument(res.body)
         comics = this._parseList(doc)
-        doc.dispose()
       } else {
         // 搜索结果第 2 页起由 /search/search-ajax.html 返回 JSON
         let res = await Network.post(
@@ -210,7 +208,6 @@ class ManMan extends ComicSource {
         }
         page += 8
       }
-      doc.dispose()
       if (chapters.size === 0) throw "获取章节列表失败"
 
       return new ComicDetails({
@@ -242,7 +239,6 @@ class ManMan extends ComicSource {
         if (src.indexOf("http") !== 0) continue
         images.push(src)
       }
-      doc.dispose()
       if (!images.length) throw "本章为付费章节，需在漫漫漫画 App 内购买后阅读"
       return { images: images }
     },

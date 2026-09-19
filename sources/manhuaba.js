@@ -92,7 +92,6 @@ class ManHuaBa extends ComicSource {
       if (res.status !== 200) throw `Invalid status code: ${res.status}`
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
-      doc.dispose()
       return { comics: comics, maxPage: comics.length > 0 ? page + 1 : page }
     },
   }))
@@ -105,7 +104,6 @@ class ManHuaBa extends ComicSource {
       if (res.status !== 200) throw `Invalid status code: ${res.status}`
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
-      doc.dispose()
       return { comics: comics, maxPage: 1 }
     },
   }
@@ -168,7 +166,6 @@ class ManHuaBa extends ComicSource {
         for (let [href, name] of items) chapters.set(href, name)
       }
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         subtitle: latestChapter,

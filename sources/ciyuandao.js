@@ -91,7 +91,6 @@ class CiYuanDao extends ComicSource {
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
       let maxPage = this._maxPage(doc, comics.length > 0 ? page + 1 : page)
-      doc.dispose()
       return { comics: comics, maxPage: maxPage }
     },
   }))
@@ -108,7 +107,6 @@ class CiYuanDao extends ComicSource {
       let doc = new HtmlDocument(res.body)
       let comics = this._parseList(doc)
       let maxPage = this._maxPage(doc, comics.length > 0 ? page + 1 : page)
-      doc.dispose()
       return { comics: comics, maxPage: maxPage }
     },
   }
@@ -161,7 +159,6 @@ class CiYuanDao extends ComicSource {
       let chapters = new Map()
       chapters.set(id, `全图（${images.length}P）`)
 
-      doc.dispose()
       return new ComicDetails({
         title: title,
         subtitle: cat ? `[${cat}]` : null,
@@ -181,7 +178,6 @@ class CiYuanDao extends ComicSource {
       if (res.status !== 200) throw `Invalid status code: ${res.status}`
       let doc = new HtmlDocument(res.body)
       let images = CiYuanDao.pickImages(doc)
-      doc.dispose()
       if (!images.length) throw "获取图片失败"
       return { images: images }
     },
