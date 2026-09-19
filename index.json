@@ -25,21 +25,21 @@
     "fileName": "sources/dongmanla.js",
     "key": "dongmanla",
     "version": "1.0.0",
-    "description": "动漫啦 - 分类丰富，滚动模式章节"
+    "description": "动漫啦 - 35个分类，滚动模式章节"
   },
   {
     "name": "国漫吧",
     "fileName": "sources/guoman8.js",
     "key": "guoman8",
     "version": "1.0.0",
-    "description": "国漫吧 - 含按年份筛选(2014-2019)"
+    "description": "国漫吧 - 含「按年份」筛选(2014-2019，已验证分页)"
   },
   {
     "name": "极速漫画",
     "fileName": "sources/jisu_1kkk.js",
     "key": "jisu_1kkk",
     "version": "1.0.0",
-    "description": "极速漫画 - 搜索/分类/100+章节，图片CDN需Referer（已由 onImageLoad 解决黑屏）"
+    "description": "极速漫画 - 搜索/26分类/章节完整；图片CDN需Referer，已由 onImageLoad 解决黑屏；支持网页登录"
   },
   {
     "name": "看漫画",
@@ -67,21 +67,21 @@
     "fileName": "sources/manman.js",
     "key": "manman",
     "version": "1.0.0",
-    "description": "漫漫漫画 - 付费章节会明确报错"
+    "description": "漫漫漫画 - 付费章节会明确报错，不返回假图"
   },
   {
     "name": "漫客栈",
     "fileName": "sources/mkzhan.js",
     "key": "mkzhan",
     "version": "1.0.0",
-    "description": "漫客栈 - 章节接口无需登录"
+    "description": "漫客栈 - 章节接口无需登录；支持账号密码登录"
   },
   {
     "name": "奇漫屋",
     "fileName": "sources/qimanwu.js",
     "key": "qimanwu",
     "version": "1.0.0",
-    "description": ""
+    "description": "奇漫屋 - 站点已停更漫画(SEO文章站)，保留待站点恢复"
   },
   {
     "name": "知音漫客",
