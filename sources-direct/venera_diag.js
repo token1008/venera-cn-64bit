@@ -3,7 +3,7 @@ class VeneraDiag extends ComicSource {
 
   key = "venera_diag"
 
-  version = "2.1.0"
+  version = "2.1.1"
 
   minAppVersion = "1.0.0"
 
@@ -399,16 +399,45 @@ class VeneraDiag extends ComicSource {
       throw "Token 无效或已过期（HTTP 401）。请用动作⑤重新设置。"
     }
     if (res.status === 403) {
+      // 403 有两种截然不同的原因，现场探测一下读权限就能区分，
+      // 免得用户在不相关的那一项上白折腾：
+      //   能读 -> 仓库已授权，只差 Contents 的写权限
+      //   不能读 -> 仓库压根没被授权
+      let canRead = false
+      try {
+        let chk = await Network.get(VeneraDiag.api + "/repos/" + VeneraDiag.repo + "/contents/README.md", this._headers())
+        canRead = (chk.status === 200)
+      } catch (e) { /* 探测失败就按通用提示走 */ }
+      if (canRead) {
+        throw [
+          "Token 缺少「写」权限（HTTP 403）。",
+          "",
+          "已探测到：这个 Token 能正常读取 " + VeneraDiag.repo + "，说明仓库授权是对的，",
+          "只差最后一步 ——",
+          "",
+          "【去改这一项】",
+          "github.com/settings/tokens?type=beta → 点开这个 Token →",
+          "Permissions → Repository permissions → 找到 Contents →",
+          "把 Read-only 改成 Read and write → 拉到底点 Save。",
+          "",
+          "Fine-grained Token 改权限不会改变 Token 本身，改完回这里重试即可（不必重新生成）。",
+          "",
+          "嫌麻烦也可以改用 Classic Token：github.com/settings/tokens 新建，只勾 public_repo。",
+        ].join("\n")
+      }
       throw [
-        "Token 没有写入权限（HTTP 403）。",
+        "Token 无法访问日志仓库（HTTP 403）。",
         "",
-        "常见原因：",
-        "① Fine-grained Token 的 Repository access 选成了「Public Repositories」——",
-        "   该模式对公开仓库只有只读权限，必须改成「Only select repositories」并勾选 venera-logs；",
-        "② Permissions → Contents 没设成 Read and write；",
-        "③ 改完权限后没有重新复制新 Token。",
+        "这个 Token 连读 " + VeneraDiag.repo + " 都不行，说明仓库没被授权给它。",
         "",
-        "也可以改用 Classic Token（只勾 public_repo 即可）。详见动作⑥使用说明。",
+        "【去改这一项】",
+        "github.com/settings/tokens?type=beta → 点开这个 Token →",
+        "Repository access 选「Only select repositories」→ 勾上 " + VeneraDiag.repo + " →",
+        "再到 Permissions → Repository permissions → Contents 设为 Read and write → Save。",
+        "",
+        "注意：Repository access 若选「Public Repositories」，对公开仓库只有只读权限，会一直 403。",
+        "",
+        "嫌麻烦也可以改用 Classic Token：github.com/settings/tokens 新建，只勾 public_repo。",
       ].join("\n")
     }
     if (res.status === 404) {
