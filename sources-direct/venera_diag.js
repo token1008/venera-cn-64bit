@@ -360,10 +360,14 @@ class VeneraDiag extends ComicSource {
 
   // 动作做成"条目"，从主页搜索或发现页都能点进来
   _actionComics() {
+    // Comic 的 cover / description 在 App 侧是非空 String，漏传会报
+    // "type 'Null' is not a subtype of type 'String'"
     return VeneraDiag.actions.map((a) => new Comic({
       id: a.id,
       title: a.title,
       subtitle: a.desc,
+      cover: "",
+      description: a.desc,
       tags: ["工具"],
     }))
   }
@@ -386,6 +390,7 @@ class VeneraDiag extends ComicSource {
       if (id === "act_upload") {
         if (!this.token) {
           return new ComicDetails({
+            cover: "",
             title: "① 上传诊断报告",
             description: "还没有设置 GitHub Token，无法上传。\n\n" +
               "请先用「⑤ 设置 / 清除 GitHub Token」填一个 Token，" +
@@ -397,6 +402,7 @@ class VeneraDiag extends ComicSource {
         // 后台执行并立刻返回，避免详情页转圈几分钟
         this._uploadInBackground()
         return new ComicDetails({
+          cover: "",
           title: "① 上传诊断报告",
           description: "已开始扫描本机全部漫画源（搜索→详情→章节→图片），并上传到 GitHub。\n\n" +
             "预计 2-5 分钟，完成后会弹窗提示，可在弹窗点「打开日志」查看。\n\n" +
@@ -409,6 +415,7 @@ class VeneraDiag extends ComicSource {
       if (id === "act_preview") {
         this._previewInBackground()
         return new ComicDetails({
+          cover: "",
           title: "② 本地预览报告",
           description: "已开始扫描本机全部漫画源，完成后把报告复制到剪贴板（不上传任何数据）。\n\n" +
             "预计 2-5 分钟，完成后弹窗提示，届时直接粘贴发送即可。",
@@ -420,6 +427,7 @@ class VeneraDiag extends ComicSource {
       if (id === "act_last") {
         let s = this.loadData("lastSummary")
         return new ComicDetails({
+          cover: "",
           title: "③ 上次扫描结果",
           description: s ? String(s) : "还没有扫描记录。先用动作①或②跑一次。",
           tags: { "设备ID": [this.deviceId] },
@@ -429,6 +437,7 @@ class VeneraDiag extends ComicSource {
 
       if (id === "act_device") {
         return new ComicDetails({
+          cover: "",
           title: "④ 本机设备ID",
           description: "你的设备ID：\n\n" + this.deviceId + "\n\n" +
             "本机首次使用时自动生成的随机标识，用于在多台设备上报的日志里区分是哪一台。" +
@@ -443,6 +452,7 @@ class VeneraDiag extends ComicSource {
         let t = UI.showInputDialog("粘贴 GitHub Token（输入 clear 可清除）", (v) => null)
         if (t === null) {
           return new ComicDetails({
+            cover: "",
             title: "⑤ 设置 / 清除 Token",
             description: "当前状态：" + has + "\n\n（已取消操作）",
             tags: { "状态": [has] },
@@ -463,6 +473,7 @@ class VeneraDiag extends ComicSource {
           msg = "Token 太短，未保存。"
         }
         return new ComicDetails({
+          cover: "",
           title: "⑤ 设置 / 清除 Token",
           description: msg,
           tags: { "状态": [this.token ? "已设置" : "未设置"] },
@@ -472,6 +483,7 @@ class VeneraDiag extends ComicSource {
 
       // act_help 及未知 id
       return new ComicDetails({
+        cover: "",
         title: "⑥ 使用说明",
         description: [
           "【这套工具做什么】",
