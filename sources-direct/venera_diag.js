@@ -3,7 +3,7 @@ class VeneraDiag extends ComicSource {
 
   key = "venera_diag"
 
-  version = "2.1.1"
+  version = "2.1.2"
 
   minAppVersion = "1.0.0"
 
@@ -581,8 +581,11 @@ class VeneraDiag extends ComicSource {
 
       if (id === "act_token") {
         let has = this.token ? "已设置" : "未设置"
-        let t = UI.showInputDialog("粘贴 GitHub Token（输入 clear 可清除）", (v) => null)
-        if (t === null) {
+        // ⚠️ UI.showInputDialog 返回的是 Promise（App 侧是 Future），漏 await 会拿到
+        // 一个 Promise 对象，存进去的就是 "[object Promise]"——这正是此前
+        // 「设置完仍提示未设置」的根因。
+        let t = await UI.showInputDialog("粘贴 GitHub Token（输入 clear 可清除）", (v) => null)
+        if (t === null || t === undefined) {
           return new ComicDetails({
             cover: VeneraDiag.icon,
             title: "⑤ 设置 / 清除 Token",
@@ -598,11 +601,16 @@ class VeneraDiag extends ComicSource {
           msg = "Token 已清除。"
         } else if (t.length >= 20) {
           this.saveData("ghToken", t)
-          msg = "Token 已保存（只存在本机）。现在可以用动作①上传了。"
+          // 回读一次确认真的落盘（不只提示成功）
+          let saved = String(this.loadData("ghToken") || "")
+          msg = saved === t
+            ? "Token 已保存（只存在本机）。现在可以用动作①上传了。\n\n已保存：" +
+              t.slice(0, 10) + "…（共 " + t.length + " 字符）"
+            : "保存失败：写入后回读不一致，请重试。"
         } else if (t === "") {
           msg = "未输入内容，Token 保持：" + has
         } else {
-          msg = "Token 太短，未保存。"
+          msg = "Token 太短（" + t.length + " 字符，GitHub Token 至少 20 字符），未保存。"
         }
         return new ComicDetails({
           cover: VeneraDiag.icon,
@@ -671,13 +679,16 @@ class VeneraDiag extends ComicSource {
       type: "callback",
       buttonText: "设置 Token",
       callback: async () => {
-        let t = UI.showInputDialog("粘贴 GitHub Token（需 repo 权限）", (v) => {
+        // 同样必须 await：否则拿到的是 Promise 对象，既存不进也会报 "trim is not a function"
+        let t = await UI.showInputDialog("粘贴 GitHub Token（需 repo 权限）", (v) => {
           if (!v || v.length < 20) return "Token 太短"
           return null
         })
         if (t) {
-          this.saveData("ghToken", t.trim())
-          UI.showMessage("Token 已保存")
+          t = String(t).trim()
+          this.saveData("ghToken", t)
+          let saved = String(this.loadData("ghToken") || "")
+          UI.showMessage(saved === t ? "Token 已保存" : "保存失败，请重试")
         }
       },
     },
