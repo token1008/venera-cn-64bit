@@ -3,7 +3,7 @@ class VeneraDiag extends ComicSource {
 
   key = "venera_diag"
 
-  version = "2.0.0"
+  version = "2.1.0"
 
   minAppVersion = "1.0.0"
 
@@ -14,8 +14,17 @@ class VeneraDiag extends ComicSource {
 
   static api = "https://api.github.com"
 
+  // 列表/详情页的占位图标（公开稳定，拉不到时 App 会显示默认占位图）
+  static icon = "https://github.githubassets.com/favicons/favicon.png"
+
   // 依次尝试的搜索词：不同站点收录范围不同，单一关键词会产生假失败
-  static probeKeywords = ["海贼", "斗破苍穹", "漫画", "one", "love"]
+  static probeKeywords = ["海贼", "斗罗大陆", "恋爱", "斗破苍穹", "漫画", "one", "love"]
+
+  // 每个源的探测时间上限（毫秒）。坏源会逐个请求等网络超时，不设上限会拖很久。
+  static budgetMs = 40000
+
+  // 同时探测几个源（并发能显著缩短总时长：28 个源串行最坏要十几分钟）
+  static concurrency = 3
 
   // App 的首页卡片是编译进程序的、加不了新按钮，所以把动作做成"条目"：
   // 从主页搜索框或发现页点进来即可操作，不用在 40 多个源里翻找设置。
@@ -96,12 +105,18 @@ class VeneraDiag extends ComicSource {
 
   // 探测单个源：搜索 → 详情 → 章节 → 中间章节图片，记录每一步的错误原文。
   // 多关键词、多候选漫画地尝试，尽量区分"源坏了"和"这个词/这本刚好没有"。
+  // 每个源有 BUDGET 秒的时间上限：坏源在移动网络下会逐个请求等超时，
+  // 不设上限的话 28 个源能跑十几分钟。
   async _probe(key, src) {
     let r = {
       key: key, name: src.name || key,
       search: null, detail: null, chapters: null, image: null,
       ok: false, triedKeywords: [], triedComics: [],
     }
+    const BUDGET = VeneraDiag.budgetMs
+    const BUDGET_SEC = Math.round(BUDGET / 1000)
+    const startedAt = Date.now()
+    const overBudget = () => (Date.now() - startedAt) > BUDGET
     let lastErr = ""
     let keywordUsed = null
     let comics = []
@@ -111,6 +126,7 @@ class VeneraDiag extends ComicSource {
         return r
       }
       for (let kw of VeneraDiag.probeKeywords) {
+        if (overBudget()) { r.budgetExceeded = true; break }
         r.triedKeywords.push(kw)
         try {
           let res = await src.search.load(kw, [], 1)
@@ -122,8 +138,21 @@ class VeneraDiag extends ComicSource {
       }
       r.search = { ok: comics.length > 0, count: comics.length, keyword: keywordUsed }
       if (!comics.length) {
-        r.search.error = lastErr || ("所有测试关键词均无结果（试过 " + r.triedKeywords.join("/") + "）")
-        return r
+        // 关键词全无结果有两种可能：该站刚好没有这些书，或搜索真的坏了。
+        // 退回用「发现页」取候选，至少把详情→章节→图片链路验证出来，
+        // 这样报告能区分"搜索不可验证"和"源整个坏了"。
+        let fromExplore = []
+        try { fromExplore = await this._candidatesFromExplore(src) } catch (e) { fromExplore = [] }
+        if (fromExplore.length) {
+          comics = fromExplore
+          r.search.fromExplore = true
+          r.search.error = "所有测试关键词均无结果（试过 " + r.triedKeywords.join("/") +
+            "）——该站可能确实没有这些书；已改用其发现页继续验证后续链路"
+        } else {
+          r.search.error = lastErr || ("所有测试关键词均无结果（试过 " + r.triedKeywords.join("/") + "）")
+          if (r.budgetExceeded) r.search.error = "探测超时（超过 " + BUDGET_SEC + " 秒），已跳过剩余测试：" + r.search.error
+          return r
+        }
       }
       if (!src.comic || typeof src.comic.loadInfo !== "function") {
         r.detail = { ok: false, error: "no comic.loadInfo" }
@@ -134,6 +163,7 @@ class VeneraDiag extends ComicSource {
       let attempts = Math.min(3, comics.length)
       let chosen = null
       for (let i = 0; i < attempts; i++) {
+        if (overBudget()) { r.budgetExceeded = true; break }
         let c = comics[i]
         r.triedComics.push(c.title)
         try {
@@ -146,7 +176,7 @@ class VeneraDiag extends ComicSource {
         }
       }
       if (!chosen) {
-        r.detail = { ok: false, error: lastErr || "全部候选漫画详情加载失败" }
+        r.detail = { ok: false, error: (r.budgetExceeded ? "探测超时（超过 " + BUDGET_SEC + " 秒）：" : "") + (lastErr || "全部候选漫画详情加载失败") }
         return r
       }
       r.comicTitle = chosen.comic.title
@@ -169,6 +199,7 @@ class VeneraDiag extends ComicSource {
       let order = [Math.floor(n / 2), 0, n - 1]
       for (let idx of order) {
         if (idx < 0 || idx >= n) continue
+        if (overBudget()) { r.budgetExceeded = true; break }
         let ch = chosen.chapters[idx]
         let chId = ch[0]
         // 有些源的章节标题本身是 Map（分组章节），转成可读文本
@@ -205,30 +236,75 @@ class VeneraDiag extends ComicSource {
     }
   }
 
-  // 扫描全部已安装源（App 里所有源共享一个 JS 引擎，可从全局注册表枚举）
+  // 从源的「发现页」取候选漫画。
+  // 搜索对不上号时用它兜底，这样仍能验证详情/章节/图片链路。
+  // 兼容三种 explore 类型：multiPageComicList / multiPartPage / mixed。
+  async _candidatesFromExplore(src) {
+    if (!src.explore || !src.explore.length) return []
+    for (let page of src.explore) {
+      if (!page || typeof page.load !== "function") continue
+      let data
+      try {
+        data = await page.load(page.type === "mixed" ? 0 : 1)
+      } catch (e) {
+        continue
+      }
+      let list = []
+      if (Array.isArray(data)) {
+        // multiPartPage: [{title, comics}]
+        for (let part of data) if (part && part.comics && part.comics.length) { list = part.comics; break }
+      } else if (data && data.comics && data.comics.length) {
+        list = data.comics
+      } else if (data && data.data && data.data.length) {
+        // mixed: [Comic[] | {title, comics}]
+        for (let item of data.data) {
+          if (Array.isArray(item) && item.length) { list = item; break }
+          if (item && item.comics && item.comics.length) { list = item.comics; break }
+        }
+      }
+      if (list.length) return list.slice(0, 3)
+    }
+    return []
+  }
+
+  // 扫描全部已安装源（App 里所有源共享一个 JS 引擎，可从全局注册表枚举）。
+  // 并发 CONCURRENCY 个一起测：串行时坏源各自等超时，28 个源要十几分钟。
   async _scanAll(onProgress) {
     let env = this._env()
     let registry = (typeof ComicSource !== "undefined" && ComicSource.sources) ? ComicSource.sources : {}
     let keys = Object.keys(registry)
     env.sourceCount = keys.length
-    let results = []
-    for (let i = 0; i < keys.length; i++) {
-      let k = keys[i]
-      if (k === this.key) continue // 跳过自己
-      if (onProgress) onProgress(i + 1, keys.length, k)
-      let rec
-      try {
-        rec = await this._probe(k, registry[k])
-      } catch (e) {
-        rec = { key: k, name: (registry[k] && registry[k].name) || k, ok: false, error: String(e) }
+    let pending = keys.filter((k) => k !== this.key) // 跳过自己
+    let results = new Array(pending.length)
+    let done = 0
+    let cursor = 0
+    const CONCURRENCY = Math.max(1, Math.min(VeneraDiag.concurrency, pending.length || 1))
+    const worker = async () => {
+      while (true) {
+        let my = cursor++
+        if (my >= pending.length) return
+        let k = pending[my]
+        let rec
+        try {
+          rec = await this._probe(k, registry[k])
+        } catch (e) {
+          rec = { key: k, name: (registry[k] && registry[k].name) || k, ok: false, error: String(e) }
+        }
+        results[my] = rec
+        done++
+        if (onProgress) onProgress(done, pending.length, k)
       }
-      results.push(rec)
     }
+    let workers = []
+    for (let i = 0; i < CONCURRENCY; i++) workers.push(worker())
+    await Promise.all(workers)
+    results = results.filter((x) => x)
     env.sources = results
     env.summary = {
       total: results.length,
       ok: results.filter((x) => x.ok).length,
       failed: results.filter((x) => !x.ok).length,
+      searchUnverified: results.filter((x) => x.ok && x.search && !x.search.ok).length,
     }
     return env
   }
@@ -255,7 +331,13 @@ class VeneraDiag extends ComicSource {
     L.push("| 源 | key | 搜索 | 详情 | 章节 | 图片 | 失败原因 |")
     L.push("|---|---|---|---|---|---|---|")
     for (let s of env.sources) {
-      let mark = (x) => (x ? (x.ok ? "✅" + (x.count !== undefined ? "(" + x.count + ")" : "") : "❌") : "-")
+      let mark = (x) => {
+        if (!x) return "-"
+        if (x.ok) return "✅" + (x.count !== undefined ? "(" + x.count + ")" : "")
+        // 搜索由发现页兜底：搜索本身没验证成功，但源是活的
+        if (x.fromExplore) return "⚠️改用发现页"
+        return "❌"
+      }
       let err = ""
       if (!s.ok) {
         for (let f of ["search", "detail", "chapters", "image"]) {
@@ -280,7 +362,8 @@ class VeneraDiag extends ComicSource {
     let L = []
     L.push("设备ID：" + env.deviceId)
     L.push("App版本：" + env.appVersion + "（" + env.platform + "）")
-    L.push("源总数：" + env.sourceCount + "　可用：" + env.summary.ok + "　失败：" + env.summary.failed)
+    L.push("源总数：" + env.sourceCount + "　可用：" + env.summary.ok + "　失败：" + env.summary.failed +
+      (env.summary.searchUnverified ? "（其中 " + env.summary.searchUnverified + " 个搜索未验证、但详情/章节/图片可用）" : ""))
     L.push("")
     L.push("— 失败的源 —")
     let any = false
@@ -312,6 +395,25 @@ class VeneraDiag extends ComicSource {
     }
     let url = VeneraDiag.api + "/repos/" + VeneraDiag.repo + "/contents/" + path
     let res = await Network.put(url, this._headers(), Convert.encodeUtf8(JSON.stringify(body)))
+    if (res.status === 401) {
+      throw "Token 无效或已过期（HTTP 401）。请用动作⑤重新设置。"
+    }
+    if (res.status === 403) {
+      throw [
+        "Token 没有写入权限（HTTP 403）。",
+        "",
+        "常见原因：",
+        "① Fine-grained Token 的 Repository access 选成了「Public Repositories」——",
+        "   该模式对公开仓库只有只读权限，必须改成「Only select repositories」并勾选 venera-logs；",
+        "② Permissions → Contents 没设成 Read and write；",
+        "③ 改完权限后没有重新复制新 Token。",
+        "",
+        "也可以改用 Classic Token（只勾 public_repo 即可）。详见动作⑥使用说明。",
+      ].join("\n")
+    }
+    if (res.status === 404) {
+      throw "仓库或分支不存在（HTTP 404）。请确认 Token 已被授权访问 " + VeneraDiag.repo + "。"
+    }
     if (res.status !== 200 && res.status !== 201) {
       throw "上传失败 HTTP " + res.status + "：" + String(res.body).slice(0, 300)
     }
@@ -366,8 +468,9 @@ class VeneraDiag extends ComicSource {
       id: a.id,
       title: a.title,
       subtitle: a.desc,
-      cover: "",
-      description: a.desc,
+      // 列表会同时渲染 subtitle 与 description，这里留空避免重复
+      cover: VeneraDiag.icon,
+      description: "",
       tags: ["工具"],
     }))
   }
@@ -390,7 +493,7 @@ class VeneraDiag extends ComicSource {
       if (id === "act_upload") {
         if (!this.token) {
           return new ComicDetails({
-            cover: "",
+            cover: VeneraDiag.icon,
             title: "① 上传诊断报告",
             description: "还没有设置 GitHub Token，无法上传。\n\n" +
               "请先用「⑤ 设置 / 清除 GitHub Token」填一个 Token，" +
@@ -402,7 +505,7 @@ class VeneraDiag extends ComicSource {
         // 后台执行并立刻返回，避免详情页转圈几分钟
         this._uploadInBackground()
         return new ComicDetails({
-          cover: "",
+          cover: VeneraDiag.icon,
           title: "① 上传诊断报告",
           description: "已开始扫描本机全部漫画源（搜索→详情→章节→图片），并上传到 GitHub。\n\n" +
             "预计 2-5 分钟，完成后会弹窗提示，可在弹窗点「打开日志」查看。\n\n" +
@@ -415,7 +518,7 @@ class VeneraDiag extends ComicSource {
       if (id === "act_preview") {
         this._previewInBackground()
         return new ComicDetails({
-          cover: "",
+          cover: VeneraDiag.icon,
           title: "② 本地预览报告",
           description: "已开始扫描本机全部漫画源，完成后把报告复制到剪贴板（不上传任何数据）。\n\n" +
             "预计 2-5 分钟，完成后弹窗提示，届时直接粘贴发送即可。",
@@ -427,7 +530,7 @@ class VeneraDiag extends ComicSource {
       if (id === "act_last") {
         let s = this.loadData("lastSummary")
         return new ComicDetails({
-          cover: "",
+          cover: VeneraDiag.icon,
           title: "③ 上次扫描结果",
           description: s ? String(s) : "还没有扫描记录。先用动作①或②跑一次。",
           tags: { "设备ID": [this.deviceId] },
@@ -437,7 +540,7 @@ class VeneraDiag extends ComicSource {
 
       if (id === "act_device") {
         return new ComicDetails({
-          cover: "",
+          cover: VeneraDiag.icon,
           title: "④ 本机设备ID",
           description: "你的设备ID：\n\n" + this.deviceId + "\n\n" +
             "本机首次使用时自动生成的随机标识，用于在多台设备上报的日志里区分是哪一台。" +
@@ -452,7 +555,7 @@ class VeneraDiag extends ComicSource {
         let t = UI.showInputDialog("粘贴 GitHub Token（输入 clear 可清除）", (v) => null)
         if (t === null) {
           return new ComicDetails({
-            cover: "",
+            cover: VeneraDiag.icon,
             title: "⑤ 设置 / 清除 Token",
             description: "当前状态：" + has + "\n\n（已取消操作）",
             tags: { "状态": [has] },
@@ -473,7 +576,7 @@ class VeneraDiag extends ComicSource {
           msg = "Token 太短，未保存。"
         }
         return new ComicDetails({
-          cover: "",
+          cover: VeneraDiag.icon,
           title: "⑤ 设置 / 清除 Token",
           description: msg,
           tags: { "状态": [this.token ? "已设置" : "未设置"] },
@@ -494,10 +597,19 @@ class VeneraDiag extends ComicSource {
           "· 平时：动作①上传，或动作②只复制不上传",
           "· 随时：动作③回看上次结果",
           "",
-          "【Token 怎么申请】",
-          "打开 github.com/settings/tokens 新建 Fine-grained token：",
-          "· Repository access 只勾选 venera-logs 这一个仓库",
-          "· Permissions → Contents 设为 Read and write",
+          "【Token 怎么申请（关键，配错会上传失败）】",
+          "方式一 · Fine-grained Token（推荐，权限最小）：",
+          "1. 打开 github.com/settings/tokens?type=beta 新建",
+          "2. Repository access 必须选「Only select repositories」，只勾 venera-logs",
+          "   ⚠️ 不要选「Public Repositories」——那对公开仓库只有只读权限，必然 403",
+          "3. Permissions → Repository permissions → Contents 设为 Read and write",
+          "4. 生成后复制（github_pat_ 开头）",
+          "",
+          "方式二 · Classic Token（最省事）：",
+          "1. 打开 github.com/settings/tokens 新建 Classic token",
+          "2. 只勾 public_repo 这一个 scope 即可（够用，且比勾整个 repo 安全）",
+          "",
+          "改过权限后，必须把新 Token 重新填一次（动作⑤）。",
           "",
           "【隐私】",
           "Token 只保存在本机该源的私有数据里，不会上传到别处；报告不含账号密码、Cookie、Token，只有公开接口的探测结果。",
