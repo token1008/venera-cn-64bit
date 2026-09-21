@@ -8,7 +8,7 @@ class GuoMan8 extends ComicSource {
 
 
 
-  version = "1.0.1"
+  version = "1.0.2"
 
 
 
@@ -36,15 +36,13 @@ class GuoMan8 extends ComicSource {
 
   // 站点 PC 版 configs.js 配的图床 images.720rs.com 已无 DNS 记录（实测 NXDOMAIN），
 
-  // 手机版 m.guoman8.cc 配的是 imagesold.502215.com（主）/ images.tingliu.cc（备用），
+  // 手机版 m.guoman8.cc 配的是 imagesold.502215.com（主）/ images.tingliu.cc（备用）。
+  // 实测 2026-09-21（真机日志 + 本机 curl）：imagesold.502215.com 已死 —— 手机端报
+  //   RhttpConnectionException ... ConnectionReset (Os code 104)，本机同样是
+  //   "Recv failure: Connection was reset"；而 images.tingliu.cc 对 /ManHuaKu/** 返回真图
+  //   （/ManHuaKu/222.jpg → 200 image/jpeg）。故改以 tingliu 作唯一主图床。
 
-  // 实测 /manhuatuku/ 老图在 images.tingliu.cc 上可用，故按路径选择默认图床。
-
-  static imgHost = "https://imagesold.502215.com"
-
-
-
-  static imgHostTingliu = "https://images.tingliu.cc"
+  static imgHost = "https://images.tingliu.cc"
 
 
 
@@ -722,15 +720,9 @@ class GuoMan8 extends ComicSource {
 
 
 
-      // 相对路径统一挂到图床；/manhuatuku/ 老图在 images.tingliu.cc 上实测可取
+      // 相对路径统一挂到图床；/ManHuaKu/** 与 /manhuatuku/** 在 images.tingliu.cc 上都可取
 
       let host = GuoMan8.imgHost
-
-      if (files[0].charAt(0) === "/" && files[0].indexOf("/manhuatuku/") === 0) {
-
-        host = GuoMan8.imgHostTingliu
-
-      }
 
       let images = []
 
@@ -834,9 +826,20 @@ class GuoMan8 extends ComicSource {
 
     if (url.indexOf("imagesold.502215.com") >= 0) return url.replace("imagesold.502215.com", "images.tingliu.cc")
 
-    if (url.indexOf("images.tingliu.cc") >= 0) return url.replace("images.tingliu.cc", "imagesold.502215.com")
-
     if (url.indexOf("images.720rs.com") >= 0) return url.replace("images.720rs.com", "images.tingliu.cc")
+
+    // /images/** 在 tukaobei 上活着；/ManHuaKu/** 只有 tingliu 一家，失败即站点侧丢图，
+    // 返回 null 让 App 立即报错，不再拿上面那些死主机白跑一轮
+
+    if (url.indexOf("images.tingliu.cc") >= 0) {
+
+      return url.indexOf("/images/") >= 0
+
+        ? url.replace("images.tingliu.cc", "tukaobei.haotu90.top")
+
+        : null
+
+    }
 
     return null
 

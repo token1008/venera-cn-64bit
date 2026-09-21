@@ -3,7 +3,7 @@ class DongManLa extends ComicSource {
 
   key = "dongmanla"
 
-  version = "1.0.0"
+  version = "1.0.1"
 
   minAppVersion = "1.0.0"
 
@@ -66,6 +66,18 @@ class DongManLa extends ComicSource {
     return DongManLa.baseUrl + path
   }
 
+  // 站点对没有封面的条目会输出截断的目录 URL（实测 2026-09-21，页面原文就是
+  // src="https://img.dongman.la/uploads/" —— 连文件名都没有），源照搬就会换来一次
+  // 必然 404 的请求。这里只接受最后一段带扩展名的真图 URL，其余一律当"没有封面"。
+  // 注意必须返回空串而不是 null：框架的 Comic.cover 是非空 String（models.dart:45），
+  // 传 null 会抛 type 'Null' is not a subtype of type 'String'（国漫吧那版用 `|| ""` 也是同理）。
+  static fixCover(url) {
+    if (!url) return ""
+    let path = url.split(/[?#]/)[0]
+    let last = path.substring(path.lastIndexOf("/") + 1)
+    return last.indexOf(".") > 0 ? url : ""
+  }
+
   // 站点偶发 403/5xx（CDN 抖动），重试后一般能拿到 200
   async _get(url, headers) {
     let last = 0
@@ -90,7 +102,7 @@ class DongManLa extends ComicSource {
       if (!href || !title) continue
       let parent = card.parent
       let img = parent ? parent.querySelector("img") : null
-      let cover = img ? (img.attributes["src"] || img.attributes["data-src"]) : null
+      let cover = img ? DongManLa.fixCover(img.attributes["src"] || img.attributes["data-src"]) : ""
       comics.push(new Comic({
         id: href.replace(/^https?:\/\/[^/]+/, ""),
         title: title,
@@ -169,11 +181,12 @@ class DongManLa extends ComicSource {
       if (!title) throw "Comic not found"
 
       // 封面图 alt 形如 “斗破苍穹漫画封面”
-      let cover = null
+      // 封面图 alt 形如 “斗破苍穹漫画封面”（找不到就留空串，框架不接受 null）
+      let cover = ""
       for (let img of doc.querySelectorAll("img")) {
         let alt = img.attributes["alt"] || ""
         if (alt.indexOf("封面") >= 0) {
-          cover = img.attributes["src"] || img.attributes["data-src"]
+          cover = DongManLa.fixCover(img.attributes["src"] || img.attributes["data-src"])
           break
         }
       }

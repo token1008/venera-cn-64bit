@@ -24,14 +24,14 @@
     "name": "动漫啦",
     "fileName": "sources-direct/dongmanla.js",
     "key": "dongmanla",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "动漫啦 - 35个分类，滚动模式章节"
   },
   {
     "name": "国漫吧",
     "fileName": "sources-direct/guoman8.js",
     "key": "guoman8",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "国漫吧 - 含「按年份」筛选(2014-2019，已验证分页)"
   },
   {
@@ -89,6 +89,20 @@
     "key": "qimanwu",
     "version": "1.0.0",
     "description": "奇漫屋 - 站点已停更漫画(SEO文章站)，保留待站点恢复"
+  },
+  {
+    "name": "喵趣漫画",
+    "fileName": "sources-direct/miaoqu.js",
+    "key": "miaoqu",
+    "version": "1.0.0",
+    "description": "喵趣漫画 - 天堂漫画模板(Mccms)；图片列表 XOR+双层Base64 已还原；站点自带搜索已坏，改用本地热度索引"
+  },
+  {
+    "name": "六漫画",
+    "fileName": "sources-direct/liumanhua.js",
+    "key": "liumanhua",
+    "version": "1.0.0",
+    "description": "六漫画 - 与漫画吧网同模板族；阅读页图片列表 AES-128-CBC 已还原"
   },
   {
     "name": "诊断与日志上传",
