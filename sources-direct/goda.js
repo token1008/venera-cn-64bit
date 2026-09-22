@@ -116,7 +116,7 @@ class Goda extends ComicSource {
   // 源唯一标识
   key = "goda"
 
-  version = "1.2.2"
+  version = "1.2.3"
 
   minAppVersion = "1.4.0"
 
@@ -417,20 +417,29 @@ class Goda extends ComicSource {
         }
       }
 
-      // 站点 2026-09 改版后 `#mangachapters` 只在未下架作品上渲染，已下架作品
-      // （热门榜抽样 10/12）整块消失；但 `#bookmarkData` 的 data-mid 在**所有**作品页
-      // 都存在，且章节接口对该 mid 仍返回完整章节（实测 225 话）。故先读它再回退。
-      let mangaId = null;
-      const bookmarkEl = document.querySelector("#bookmarkData");
-      if (bookmarkEl && bookmarkEl.attributes && bookmarkEl.attributes["data-mid"]) {
-        mangaId = bookmarkEl.attributes["data-mid"];
+      // 站点 2026-09 改版成 Astro 后 `#mangachapters` 只在未下架作品上渲染，已下架作品
+      // （热门榜抽样 10/12）整块消失；但 `#bookmarkData` 的 data-mid 在**所有**作品页都有，
+      // 且章节接口对该 mid 仍返回完整章节（实测 225 话）。故先读它再回退。
+      // 站点还在持续改版（同一时间不同边缘节点能取到结构不同的两份页面），所以这里按
+      // 可靠性依次兜底，最后用原始 HTML 正则——DOM 取不到时也不至于直接报错。
+      const midOf = (el) => {
+        const v = el && el.attributes ? el.attributes["data-mid"] : null;
+        return v && /^\d+$/.test(v) ? v : null;
+      };
+      let mangaId = midOf(document.querySelector("#bookmarkData"))
+          || midOf(document.querySelector("#mangachapters"));
+      if (!mangaId) {
+        for (let el of document.querySelectorAll("[data-mid]")) {
+          mangaId = midOf(el);
+          if (mangaId) break;
+        }
       }
       if (!mangaId) {
-        const mangaEl = document.querySelector("#mangachapters");
-        mangaId = mangaEl && mangaEl.attributes ? mangaEl.attributes["data-mid"] : null;
+        const m = String(res.body).match(/data-mid=["']?(\d+)["']?/);
+        if (m) mangaId = m[1];
       }
       if (!mangaId) {
-        throw "无法获取漫画ID";
+        throw `无法获取漫画ID（作品页结构已变化，slug: ${id}）`;
       }
 
       const chapters = {};
