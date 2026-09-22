@@ -116,12 +116,13 @@ class Goda extends ComicSource {
   // 源唯一标识
   key = "goda"
 
-  version = "1.2.1"
+  version = "1.2.2"
 
   minAppVersion = "1.4.0"
 
-  // 更新地址
-  url = "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/goda.js"
+  // 上游 venera-configs 的 goda.js 仍只读 #mangachapters（站点改版后已失效，见 loadInfo），
+  // 本仓库是打过补丁的版本，故更新地址指向本仓库而非上游。
+  url = "https://cdn.jsdelivr.net/gh/token1008/venera-cn-64bit@main/sources-direct/goda.js"
 
   settings = {
     domains: {
@@ -416,8 +417,18 @@ class Goda extends ComicSource {
         }
       }
 
-      const mangaEl = document.querySelector("#mangachapters");
-      const mangaId = mangaEl && mangaEl.attributes ? mangaEl.attributes["data-mid"] : null;
+      // 站点 2026-09 改版后 `#mangachapters` 只在未下架作品上渲染，已下架作品
+      // （热门榜抽样 8/12）整块消失；但 `#bookmarkData` 的 data-mid 在**所有**作品页
+      // 都存在，且章节接口对该 mid 仍返回完整章节（实测 225 话）。故先读它再回退。
+      let mangaId = null;
+      const bookmarkEl = document.querySelector("#bookmarkData");
+      if (bookmarkEl && bookmarkEl.attributes && bookmarkEl.attributes["data-mid"]) {
+        mangaId = bookmarkEl.attributes["data-mid"];
+      }
+      if (!mangaId) {
+        const mangaEl = document.querySelector("#mangachapters");
+        mangaId = mangaEl && mangaEl.attributes ? mangaEl.attributes["data-mid"] : null;
+      }
       if (!mangaId) {
         throw "无法获取漫画ID";
       }
