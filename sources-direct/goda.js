@@ -418,7 +418,7 @@ class Goda extends ComicSource {
       }
 
       // 站点 2026-09 改版后 `#mangachapters` 只在未下架作品上渲染，已下架作品
-      // （热门榜抽样 8/12）整块消失；但 `#bookmarkData` 的 data-mid 在**所有**作品页
+      // （热门榜抽样 10/12）整块消失；但 `#bookmarkData` 的 data-mid 在**所有**作品页
       // 都存在，且章节接口对该 mid 仍返回完整章节（实测 225 话）。故先读它再回退。
       let mangaId = null;
       const bookmarkEl = document.querySelector("#bookmarkData");
