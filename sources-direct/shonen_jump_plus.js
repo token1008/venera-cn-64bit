@@ -1,7 +1,7 @@
 class ShonenJumpPlus extends ComicSource {
   name = "少年ジャンプ＋";
   key = "shonen_jump_plus";
-  version = "1.1.1";
+  version = "1.1.2";
   minAppVersion = "1.2.1";
   url =
     "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/shonen_jump_plus.js";
@@ -10,7 +10,10 @@ class ShonenJumpPlus extends ComicSource {
   bearerToken = null;
   userAccountId = null;
   tokenExpiry = 0;
-  latestVersion = "4.0.24";
+
+  // 服务端按 UA 里的版本号做闸门，旧版本直接 410 UPDATE_REQUIRED，
+  // 兜底值必须是一个当前仍被接受的版本。
+  latestVersion = "4.0.40";
 
   get headers() {
     return {
@@ -32,14 +35,17 @@ class ShonenJumpPlus extends ComicSource {
   }
 
   async init() {
-    const url = "https://apps.apple.com/jp/app/id875750302";
+    // 改用 iTunes lookup 的 JSON：apps.apple.com 的页面现在会 302，
+    // 原来的 whats-new__latest__version 正则取不到值，UA 停在旧版本上被 410 拒掉。
+    const url = "https://itunes.apple.com/lookup?id=875750302&country=jp";
 
     const resp = await Network.get(url);
 
-    const match = resp.body.match(/whats-new__latest__version">[^<]*?([\d.]+)</);
-
-    if (match && match[1]) {
-      this.latestVersion = match[1];
+    if (resp.status == 200) {
+      const version = JSON.parse(resp.body)?.results?.[0]?.version;
+      if (typeof version === "string" && version) {
+        this.latestVersion = version;
+      }
     }
   }
 

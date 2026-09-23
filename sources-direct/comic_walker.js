@@ -1,14 +1,16 @@
 class ComicWalker extends ComicSource {
   name = "カドコミ";
   key = "comic_walker";
-  version = "1.0.1";
+  version = "1.0.2";
   minAppVersion = "1.6.0";
   url =
     "https://cdn.jsdelivr.net/gh/venera-app/venera-configs@main/comic_walker.js";
 
   api_key = "ytBrdQ2ZYdRQguqEusVLxQVUgakNnVht";
 
-  latestVersion = "1.4.13";
+  // 服务端会校验 UA 里的版本号：太旧回 400 upgrade_required，
+  // 所以这里的兜底值必须是一个当前仍被接受的版本。
+  latestVersion = "1.6.6";
 
   api_base = "https://mobileapp.comic-walker.com";
 
@@ -82,7 +84,13 @@ class ComicWalker extends ComicSource {
 
     if (resp.status == 200) {
       const response = JSON.parse(resp.body);
-      this.latestVersion = response.version;
+      // iTunes lookup 返回 {resultCount, results: [...]}，版本号在 results[0].version。
+      // 直接读 response.version 会拿到 undefined，UA 变成 BookWalkerApp/undefined
+      // 被服务端以 400 UserAgentの形式が不正です 拒掉。
+      const version = response?.results?.[0]?.version;
+      if (typeof version === "string" && version) {
+        this.latestVersion = version;
+      }
     }
 
     try {
@@ -155,8 +163,12 @@ class ComicWalker extends ComicSource {
 
   search = {
     load: async (keyword, _, page) => {
+      // 关键词必须自己编码：非 ASCII 关键词原样拼进 URL 时，
+      // 服务端会回 200 + 空列表（而不是报错），搜索看起来像"什么都搜不到"。
       const res = await this.request(
-        `${this.api_base}/v1/search/comics?keyword=${keyword}&limit=20&offset=${
+        `${this.api_base}/v1/search/comics?keyword=${encodeURIComponent(
+          keyword,
+        )}&limit=20&offset=${
           (page - 1) * 20
         }`,
         this.headers,

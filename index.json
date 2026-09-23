@@ -122,8 +122,8 @@
     "name": "カドコミ（官方）",
     "fileName": "sources-direct/comic_walker.js",
     "key": "comic_walker",
-    "version": "1.0.1",
-    "description": "官方源 · 无需代理：主机直连可达（403），但离线仿真报“TypeError: Cannot read properties of undefined (re”（多为需登录/需 App 环境，非代理问题）"
+    "version": "1.0.2",
+    "description": "官方源 · 无需代理：已修 UA 版本号（iTunes lookup 取 results[0].version，原来取成 undefined 被服务端 400 拒）+ 搜索关键词改为 URL 编码。仿真：搜索 20 条 / 详情 7 章 / 章节 54 图，0 失败；图片为 XOR 加密 webp，离线仿真不做 onResponse 解密所以魔数检测不通过，App 内正常。"
   },
   {
     "name": "comick（官方）",
@@ -199,15 +199,15 @@
     "name": "少年ジャンプ＋（官方）",
     "fileName": "sources-direct/shonen_jump_plus.js",
     "key": "shonen_jump_plus",
-    "version": "1.1.1",
-    "description": "官方源 · 无需代理：主机直连可达（200），但离线仿真报“Invalid status: 410”（多为需登录/需 App 环境，非代理问题）"
+    "version": "1.1.2",
+    "description": "官方源 · 无需代理：已修版本闸（改用 iTunes lookup 的 JSON；apps.apple.com 页面 302 导致正则取不到版本，UA 停在 4.0.24 被 410 UPDATE_REQUIRED 拒）。仿真：搜索 41 条 / 详情 130 章 / 章节图 200 OK jpeg。"
   },
   {
     "name": "优酷漫画（官方）",
     "fileName": "sources-direct/ykmh.js",
     "key": "ykmh",
     "version": "1.0.0",
-    "description": "官方源 · 无需代理：主机直连可达（403），但离线仿真报“Request Error: 403”（多为需登录/需 App 环境，非代理问题）"
+    "description": "官方源 · 整站套 Cloudflare 人机验证（www./apex/m./http 全 403 + Cf-Mitigated: challenge，'Just a moment...'），纯 HTTP 无解；需在内置浏览器过一次验证后复用 cookie 才可能恢复，本次未实现。"
   },
   {
     "name": "再漫画（官方）",
